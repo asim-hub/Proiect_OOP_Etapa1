@@ -4,6 +4,7 @@ final class HeroFactory {
 
 	    private static HeroFactory instance = null;
 
+	    //Make heroFactory a singleton
 	    private HeroFactory() { }
 
 	    static HeroFactory getInstance() {
