@@ -261,48 +261,122 @@ public class Knight extends Hero{
         System.out.println("3");
         /*R.K*/
         map instance = map.getInstance();
-
-
-
-        //clasa this knight ataca rogue
-        float HPLIMIT2;
-        float damageExecuteBase2;
-        // verific daca pyromancer moare din prima
-        if (Constants.ZEROZEROONE * this.getLevel() < Constants.ZEROTWO) {
-            HPLIMIT2 = (float) ((Constants.ZEROTWO +
-                    Constants.ZEROZEROONE * this.getLevel()) * (Constants.ROGUE + rogue.getLevel() * Constants.FORTY));
-        } else {
-            HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.ROGUE + rogue.getLevel() * Constants.FORTY));
+        //aplic lui rogue overtimedamage
+        if (rogue.getNrRoundOvertime() > 0) {
+            rogue.sethp(rogue.gethp() - rogue.getDemageOvertime());
+            rogue.setNrRoundOvertime(rogue.getNrRoundOvertime() - 1);
         }
-        if (HPLIMIT2 >= rogue.gethp()) {
-            rogue.setDie(Constants.ONE);
-            rogue.sethp(Constants.ZERO);
+
+        //aplic lui this/clasa overtimedamage
+        if (this.getNrRoundOvertime() > 0) {
+            this.sethp(this.gethp() - this.getDemageOvertime());
+            this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+        }
+        if (this.getDie() == 0 && rogue.getDie() == 0) {
+
+
+            //roguie ataca clasa
+            rogue.setHit(rogue.getHit() + 1);
+            float damageBackstab1 = Constants.ZERO;
+            damageBackstab1 = (Constants.TWOH + rogue.getLevel() * Constants.LEVELI) * Constants.MODIFICATORV;
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
+                damageBackstab1 = damageBackstab1 * Constants.KR;
+            }
+            //hit
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 0)/*??*/ {
+                damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
+                rogue.setHit(Constants.ZERO);
+            }
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 0) {
+                rogue.setHit(Constants.ZERO);
+            }
+            damageBackstab1 = Math.round(damageBackstab1);
+            //rogue-Paralysis
+            float damageParalysis1 = Constants.ZERO;
+            damageParalysis1 = (Constants.FORTY + Constants.TEN * rogue.getLevel()) * Constants.KW;
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
+                damageParalysis1 = damageParalysis1 * Constants.KR;
+            }
+            damageParalysis1 = Math.round(damageParalysis1);
+            float damage1;
+            damage1 = damageBackstab1 + damageParalysis1;
+            this.sethp((int) (this.gethp() - damage1));
+            //damage extins si paralizie 3/6
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
+                this.setDemageOvertime((int) damage1);
+                this.setNrRoundOvertime(Constants.SIX);
+                this.setStay(Constants.SIX);
+            } else {
+                this.setDemageOvertime((int) damage1);
+                this.setNrRoundOvertime(Constants.THREE);
+                this.setStay(Constants.THREE);
+            }
+
+            //clasa this knight ataca rogue
+            float HPLIMIT2;
+            float damageExecuteBase2;
+            // verific daca pyromancer moare din prima
+            if (Constants.ZEROZEROONE * this.getLevel() < Constants.ZEROTWO) {
+                HPLIMIT2 = (float) ((Constants.ZEROTWO +
+                        Constants.ZEROZEROONE * this.getLevel()) * (Constants.ROGUE + rogue.getLevel() * Constants.FORTY));
+            } else {
+                HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.ROGUE + rogue.getLevel() * Constants.FORTY));
+            }
+            if (HPLIMIT2 >= rogue.gethp()) {
+                rogue.setDie(Constants.ONE);
+                rogue.sethp(Constants.ZERO);
             /*
             this.life();
             */
-        } else {
-            //daca nu moare din prima fac abilitatile
-            //knight-execute
-            damageExecuteBase2 = (Constants.TWOH + Constants.THIRTIETH * this.getLevel()) * Constants.KR;
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
-                damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
-            }
-            damageExecuteBase2 = Math.round(damageExecuteBase2);
+            } else {
+                //daca nu moare din prima fac abilitatile
+                //knight-execute
+                damageExecuteBase2 = (Constants.TWOH + Constants.THIRTIETH * this.getLevel()) * Constants.KR;
+                if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
+                    damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
+                }
+                damageExecuteBase2 = Math.round(damageExecuteBase2);
 
-            //knight-slam
-            float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORR;
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
-                damageSlamBase2 = Constants.MODIFICATORL * damageSlamBase2;
+                //knight-slam
+                float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORR;
+                if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
+                    damageSlamBase2 = Constants.MODIFICATORL * damageSlamBase2;
+                }
+                damageSlamBase2 = Math.round(damageSlamBase2);
+                float damage2 = damageSlamBase2 + damageExecuteBase2;
+                rogue.sethp(rogue.gethp() - (int) damage2);
+                //incapacitatea de miscare-> sterg celelate overtime
+                rogue.setStay(Constants.ONE);
+                rogue.setNrRoundOvertime(Constants.ZERO);
+                rogue.setDemageOvertime(Constants.ZERO);
             }
-            damageSlamBase2 = Math.round(damageSlamBase2);
-            float damage2 = damageSlamBase2 + damageExecuteBase2;
-            rogue.sethp(rogue.gethp() - (int) damage2);
-            //incapacitatea de miscare-> sterg celelate overtime
-            rogue.setStay(Constants.ONE);
-            rogue.setNrRoundOvertime(Constants.ZERO);
-            rogue.setDemageOvertime(Constants.ZERO);
+            //verific daca mai sutnt in viata
+            this.life();
+            rogue.life();
+            //verific daca se omoara si daca da adaug experienta//verific daca avanseaza in level si actualizez hp
+            if (rogue.getDie() == 1) {
+                //insemna ca la omorat clasa/this
+                this.setxp(this.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (this.getLevel() - rogue.getLevel()) * Constants.FORTY));
+                int old_level = this.getLevel();
+                int new_level = (int) (this.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    this.setLevel(new_level);
+                    this.sethp(Constants.KNIGHT + new_level * Constants.EIGHTY);
+                }
+            }
+            if (this.getDie() == 1) {
+                //insemna ca la omorat rogue
+                rogue.setxp(rogue.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (rogue.getLevel() - this.getLevel()) * Constants.FORTY));
+                int old_level = rogue.getLevel();
+                int new_level = (int) (rogue.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    rogue.setLevel(new_level);
+                    rogue.sethp(Constants.ROGUE + new_level * Constants.FORTY);
+                }
+            }
         }
-
     }
     
     @Override

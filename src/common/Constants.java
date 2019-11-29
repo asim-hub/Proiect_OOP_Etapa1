@@ -41,4 +41,8 @@ public final class Constants {
     public static final int FIFTY = 50;
 	public static final float ONEFIVE = 1.5f;
 	public static final int TEN = 10;
+	public static final int THREE = 3;
+	public static final int SIX = 6;
+
+
 }

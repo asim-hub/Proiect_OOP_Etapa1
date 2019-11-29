@@ -237,41 +237,108 @@ public class Pyromancer extends Hero{
     public void salute(Rogue rogue) {
         System.out.println("7");
         /*R.P*/
-
-
+        map instance = map.getInstance();
         //aplic lui pyromancer overtimedamage
         if(this.getNrRoundOvertime()>0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
         }
-        //Pyromancer-Fireblast
-        map instance = map.getInstance();
-        float damageFireblastBase = Constants.MODIFICATORR*(Constants.DAMAGEFB + this.getLevel()*Constants.LEVELFB);
-        if(instance.getArray(this.getCoord_x(),this.getCoord_y()) == Constants.VOLCANIC){
-            damageFireblastBase = Constants.MODIFICATORV*damageFireblastBase;
+        //aplic lui rogue overtimedamage
+        if (rogue.getNrRoundOvertime() > 0) {
+            rogue.sethp(rogue.gethp() - rogue.getDemageOvertime());
+            rogue.setNrRoundOvertime(rogue.getNrRoundOvertime() - 1);
         }
-        damageFireblastBase = Math.round(damageFireblastBase);
-        //Pyromancer-Ignite
-        float damageIgniteBase = Constants.MODIFICATORR*(Constants.DAMAGEI + this.getLevel()*Constants.LEVELI);
-        if(instance.getArray(this.getCoord_x(),this.getCoord_y()) == Constants.VOLCANIC){
-            damageIgniteBase = Constants.MODIFICATORV*damageIgniteBase;
-        }
-        damageIgniteBase = Math.round(damageIgniteBase);
-        float damage;
-        damage = damageFireblastBase + damageIgniteBase;
-        rogue.sethp((int) (rogue.gethp()-damage));
-        float damageOvertime;
-        damageOvertime = Constants.MODIFICATORR*(Constants.LEVELFB + Constants.THIRTIETH*this.getLevel());
-        if(instance.getArray(this.getCoord_x(),this.getCoord_y()) == Constants.VOLCANIC){
-            damageOvertime = Constants.MODIFICATORV*damageOvertime;
-        }
-        damageOvertime=Math.round(damageOvertime);
-        //dau damage prelungit si anulez paralizia
-        rogue.setDemageOvertime((int) damageOvertime);
-        rogue.setNrRoundOvertime(Constants.TWO);
-        rogue.setStay(Constants.ZERO);
+        if (this.getDie() == 0 && rogue.getDie() == 0) {
 
+            //roguie ataca clasa
+            rogue.setHit(rogue.getHit() + 1);
+            float damageBackstab1 = Constants.ZERO;
+            damageBackstab1 = (Constants.TWOH + rogue.getLevel() * Constants.LEVELI) * Constants.MODIFICATORV;
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
+                damageBackstab1 = damageBackstab1 * Constants.KR;
+            }
+            //hit
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 0)/*??*/ {
+                damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
+                rogue.setHit(Constants.ZERO);
+            }
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 0) {
+                rogue.setHit(Constants.ZERO);
+            }
+            damageBackstab1 = Math.round(damageBackstab1);
+            //rogue-Paralysis
+            float damageParalysis1 = Constants.ZERO;
+            damageParalysis1 = (Constants.FORTY + Constants.TEN * rogue.getLevel()) * Constants.MODIFICATORK;
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
+                damageParalysis1 = damageParalysis1 * Constants.KR;
+            }
+            damageParalysis1 = Math.round(damageParalysis1);
+            float damage1;
+            damage1 = damageBackstab1 + damageParalysis1;
+            this.sethp((int) (this.gethp() - damage1));
+            //damage extins si paralizie 3/6
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
+                this.setDemageOvertime((int) damage1);
+                this.setNrRoundOvertime(Constants.SIX);
+                this.setStay(Constants.SIX);
+            } else {
+                this.setDemageOvertime((int) damage1);
+                this.setNrRoundOvertime(Constants.THREE);
+                this.setStay(Constants.THREE);
+            }
 
+            //Pyromancer-Fireblast
+            float damageFireblastBase = Constants.MODIFICATORR * (Constants.DAMAGEFB + this.getLevel() * Constants.LEVELFB);
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
+                damageFireblastBase = Constants.MODIFICATORV * damageFireblastBase;
+            }
+            damageFireblastBase = Math.round(damageFireblastBase);
+            //Pyromancer-Ignite
+            float damageIgniteBase = Constants.MODIFICATORR * (Constants.DAMAGEI + this.getLevel() * Constants.LEVELI);
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
+                damageIgniteBase = Constants.MODIFICATORV * damageIgniteBase;
+            }
+            damageIgniteBase = Math.round(damageIgniteBase);
+            float damage;
+            damage = damageFireblastBase + damageIgniteBase;
+            rogue.sethp((int) (rogue.gethp() - damage));
+            float damageOvertime;
+            damageOvertime = Constants.MODIFICATORR * (Constants.LEVELFB + Constants.THIRTIETH * this.getLevel());
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
+                damageOvertime = Constants.MODIFICATORV * damageOvertime;
+            }
+            damageOvertime = Math.round(damageOvertime);
+            //dau damage prelungit si anulez paralizia
+            rogue.setDemageOvertime((int) damageOvertime);
+            rogue.setNrRoundOvertime(Constants.TWO);
+            rogue.setStay(Constants.ZERO);
+            //verific daca mai sunt in viata
+            this.life();
+            rogue.life();
+            //verific daca se omoara si daca da adaug experienta//verific daca avanseaza in level si actualizez hp
+            if (rogue.getDie() == 1) {
+                //insemna ca la omorat clasa/this
+                this.setxp(this.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (this.getLevel() - rogue.getLevel()) * Constants.FORTY));
+                int old_level = this.getLevel();
+                int new_level = (int) (this.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    this.setLevel(new_level);
+                    this.sethp(Constants.PYROMANCER + new_level * Constants.LEVELFB);
+                }
+            }
+            if (this.getDie() == 1) {
+                //insemna ca la omorat rogue
+                rogue.setxp(rogue.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (rogue.getLevel() - this.getLevel()) * Constants.FORTY));
+                int old_level = rogue.getLevel();
+                int new_level = (int) (rogue.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    rogue.setLevel(new_level);
+                    rogue.sethp(Constants.ROGUE + new_level * Constants.FORTY);
+                }
+            }
+        }
     }
     
     @Override
