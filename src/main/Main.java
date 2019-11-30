@@ -68,12 +68,14 @@ public class Main {
 
 				 for (int i = 0; i < hero.size()-1; i++) {
 				    for (int j = i+1; j < hero.size(); j++) {
+				        //hero.get(i).life();
+				        //hero.get(j).life();
 				        if(hero.get(i).getCoord_x() == hero.get(j).getCoord_x() &&
                                 hero.get(i).getCoord_y() == hero.get(j).getCoord_y() &&
                                 hero.get(i).getDie() == 0 && hero.get(j).getDie() == 0) {
                             hero.get(i).fightwith(hero.get(j));
-                            //System.out.println(hero.get(i).gethp());
-                            //System.out.println(hero.get(j).gethp());
+                            System.out.println(hero.get(i).gethp());
+                            System.out.println(hero.get(j).gethp());
 
                         }
 				    }

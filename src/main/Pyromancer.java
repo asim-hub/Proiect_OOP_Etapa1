@@ -242,11 +242,13 @@ public class Pyromancer extends Hero{
         if(this.getNrRoundOvertime()>0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            this.life();
         }
         //aplic lui rogue overtimedamage
         if (rogue.getNrRoundOvertime() > 0) {
             rogue.sethp(rogue.gethp() - rogue.getDemageOvertime());
             rogue.setNrRoundOvertime(rogue.getNrRoundOvertime() - 1);
+            rogue.life();
         }
         if (this.getDie() == 0 && rogue.getDie() == 0) {
 
@@ -258,11 +260,11 @@ public class Pyromancer extends Hero{
                 damageBackstab1 = damageBackstab1 * Constants.KR;
             }
             //hit
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 1)/*??*/ {
                 damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
                 rogue.setHit(Constants.ZERO);
             }
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 0) {
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 1) {
                 rogue.setHit(Constants.ZERO);
             }
             damageBackstab1 = Math.round(damageBackstab1);
@@ -350,35 +352,94 @@ public class Pyromancer extends Hero{
         if(this.getNrRoundOvertime()>0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            this.life();
         }
-        //Pyromancer-Fireblast
-        map instance = map.getInstance();
-        float damageFireblastBase = Constants.MODIFICATORW*(Constants.DAMAGEFB + this.getLevel()*Constants.LEVELFB);
-        if(instance.getArray(this.getCoord_x(),this.getCoord_y()) == Constants.VOLCANIC){
-            damageFireblastBase = Constants.MODIFICATORV*damageFireblastBase;
+        //aplic lui wizard overtimedamage
+        if(wizard.getNrRoundOvertime()>0) {
+            wizard.sethp(wizard.gethp() - wizard.getDemageOvertime());
+            wizard.setNrRoundOvertime(wizard.getNrRoundOvertime() - 1);
+            wizard.life();
         }
-        damageFireblastBase = Math.round(damageFireblastBase);
-        //Pyromancer-Ignite
-        float damageIgniteBase = Constants.MODIFICATORW*(Constants.DAMAGEI + this.getLevel()*Constants.LEVELI);
-        if(instance.getArray(this.getCoord_x(),this.getCoord_y()) == Constants.VOLCANIC){
-            damageIgniteBase = Constants.MODIFICATORV*damageIgniteBase;
-        }
-        damageIgniteBase = Math.round(damageIgniteBase);
-        float damage;
-        damage = damageFireblastBase + damageIgniteBase;
-        wizard.sethp((int) (wizard.gethp()-damage));
-        float damageOvertime;
-        damageOvertime = Constants.MODIFICATORW*(Constants.LEVELFB + Constants.THIRTIETH*this.getLevel());
-        if(instance.getArray(this.getCoord_x(),this.getCoord_y()) == Constants.VOLCANIC){
-            damageOvertime = Constants.MODIFICATORV*damageOvertime;
-        }
-        damageOvertime=Math.round(damageOvertime);
-        //damage pelungit si anulez paralizia
-        wizard.setDemageOvertime((int) damageOvertime);
-        wizard.setNrRoundOvertime(Constants.TWO);
-        wizard.setStay(Constants.ZERO);
+        if (this.getDie() == 0 && wizard.getDie() == 0) {
 
+            //Pyromancer-Fireblast
+            map instance = map.getInstance();
+            float prefireblast;
+            float damageFireblastBase = Constants.MODIFICATORW * (Constants.DAMAGEFB + this.getLevel() * Constants.LEVELFB);
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
+                damageFireblastBase = Constants.MODIFICATORV * damageFireblastBase;
+            }
+            prefireblast=Math.round(damageFireblastBase/Constants.MODIFICATORW);
+            damageFireblastBase = Math.round(damageFireblastBase);
+            //Pyromancer-Ignite
+            float preignite;
+            float damageIgniteBase = Constants.MODIFICATORW * (Constants.DAMAGEI + this.getLevel() * Constants.LEVELI);
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
+                damageIgniteBase = Constants.MODIFICATORV * damageIgniteBase;
+            }
+            preignite=Math.round(damageIgniteBase/Constants.MODIFICATORW);
+            damageIgniteBase = Math.round(damageIgniteBase);
+            float damage;
+            damage = damageFireblastBase + damageIgniteBase;
+            wizard.sethp((int) (wizard.gethp() - damage));
+            float damageOvertime;
+            damageOvertime = Constants.MODIFICATORW * (Constants.LEVELFB + Constants.THIRTIETH * this.getLevel());
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
+                damageOvertime = Constants.MODIFICATORV * damageOvertime;
+            }
+            damageOvertime = Math.round(damageOvertime);
+            //damage pelungit si anulez paralizia
+            wizard.setDemageOvertime((int) damageOvertime);
+            wizard.setNrRoundOvertime(Constants.TWO);
+            wizard.setStay(Constants.ZERO);
 
+            //wizard ataca clasa pyromancer
+            //drain
+            float procent1;
+            procent1 = Constants.ZEROTWO + Constants.ZZFIVE * wizard.getLevel();
+            float damagedrain1 = Constants.ZERO;
+            damagedrain1 = (Constants.MODIFICATORP * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + this.getLevel() * Constants.EIGHTY), this.gethp());
+            if (instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT) {
+                damagedrain1 *= Constants.KP;
+            }
+            damagedrain1 = Math.round(damagedrain1);
+            //Deflect
+            float procent2;
+            procent2 = Constants.ZTHREEFIVE + Constants.ZZTWO * wizard.getLevel();
+            if (procent2 > Constants.MAXPRO) {
+                procent2 = Constants.MAXPRO;
+            }
 
+            float damagedeflect;
+            damagedeflect = (procent2 * Constants.ONETHREE) * (prefireblast + preignite);
+            damagedeflect = Math.round(damagedeflect);
+            float damage1 = damagedrain1 + damagedeflect;
+            this.sethp((int) (this.gethp() - damage1));
+            //verific daca mai traiesc
+            this.life();
+            wizard.life();
+            if (wizard.getDie() == 1) {
+                //insemna ca la omorat clasa/this
+                this.setxp(this.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (this.getLevel() - wizard.getLevel()) * Constants.FORTY));
+                int old_level = this.getLevel();
+                int new_level = (int) (this.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    this.setLevel(new_level);
+                    this.sethp(Constants.PYROMANCER + new_level * Constants.FIFTY);
+                }
+            }
+            if (this.getDie() == 1) {
+                //insemna ca la omorat wizard
+                wizard.setxp(wizard.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (wizard.getLevel() - this.getLevel()) * Constants.FORTY));
+                int old_level = wizard.getLevel();
+                int new_level = (int) (wizard.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    wizard.setLevel(new_level);
+                    wizard.sethp(Constants.WIZARD + new_level * Constants.THIRTIETH);
+                }
+            }
+        }
     }
 }

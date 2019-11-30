@@ -39,11 +39,13 @@ public class Rogue extends Hero {
         if (knight.getNrRoundOvertime() > 0) {
             knight.sethp(knight.gethp() - knight.getDemageOvertime());
             knight.setNrRoundOvertime(knight.getNrRoundOvertime() - 1);
+            knight.life();
         }
         //aplic lui this/rogue overtime daca are
         if (this.getNrRoundOvertime() > 0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            this.life();
         }
         if (this.getDie() == 0 && knight.getDie() == 0) {
 
@@ -95,11 +97,11 @@ public class Rogue extends Hero {
                 damageBackstab2 = damageBackstab2 * Constants.KR;
             }
             //hit
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 1)/*??*/ {
                 damageBackstab2 = damageBackstab2 * Constants.ONEFIVE;
                 this.setHit(Constants.ZERO);
             }
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 0) {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 1) {
                 this.setHit(Constants.ZERO);
             }
             damageBackstab2 = Math.round(damageBackstab2);
@@ -163,14 +165,16 @@ public class Rogue extends Hero {
         if (pyromancer.getNrRoundOvertime() > 0) {
             pyromancer.sethp(pyromancer.gethp() - pyromancer.getDemageOvertime());
             pyromancer.setNrRoundOvertime(pyromancer.getNrRoundOvertime() - 1);
+            //pyromancer.life();
         }
         //aplic lui this/clasa overtimedamage
         if (this.getNrRoundOvertime() > 0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            //this.life();
         }
         if (this.getDie() == 0 && pyromancer.getDie() == 0) {
-
+            System.out.println("lupta");
             //Pyromancer-Fireblast
             map instance = map.getInstance();
             float damageFireblastBase = Constants.MODIFICATORR * (Constants.DAMAGEFB + pyromancer.getLevel() * Constants.LEVELFB);
@@ -206,11 +210,11 @@ public class Rogue extends Hero {
                 damageBackstab2 = damageBackstab2 * Constants.KR;
             }
             //hit
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 1)/*??*/ {
                 damageBackstab2 = damageBackstab2 * Constants.ONEFIVE;
                 this.setHit(Constants.ZERO);
             }
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 0) {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 1) {
                 this.setHit(Constants.ZERO);
             }
             damageBackstab2 = Math.round(damageBackstab2);
@@ -273,12 +277,14 @@ public class Rogue extends Hero {
         if (rogue.getNrRoundOvertime() > 0) {
             rogue.sethp(rogue.gethp() - rogue.getDemageOvertime());
             rogue.setNrRoundOvertime(rogue.getNrRoundOvertime() - 1);
+            rogue.life();
         }
 
         //aplic lui this/clasa overtimedamage
         if (this.getNrRoundOvertime() > 0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            this.life();
         }
 
         if (this.getDie() == 0 && rogue.getDie() == 0) {
@@ -291,11 +297,11 @@ public class Rogue extends Hero {
                 damageBackstab1 = damageBackstab1 * Constants.KR;
             }
             //hit
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 1)/*??*/ {
                 damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
                 rogue.setHit(Constants.ZERO);
             }
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 0) {
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 1) {
                 rogue.setHit(Constants.ZERO);
             }
             damageBackstab1 = Math.round(damageBackstab1);
@@ -328,11 +334,11 @@ public class Rogue extends Hero {
                 damageBackstab2 = damageBackstab2 * Constants.KR;
             }
             //hit
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 1)/*??*/ {
                 damageBackstab2 = damageBackstab2 * Constants.ONEFIVE;
                 this.setHit(Constants.ZERO);
             }
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 0) {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 1) {
                 this.setHit(Constants.ZERO);
             }
             damageBackstab2 = Math.round(damageBackstab2);
@@ -394,12 +400,14 @@ public class Rogue extends Hero {
         if (wizard.getNrRoundOvertime() > 0) {
             wizard.sethp(wizard.gethp() - wizard.getDemageOvertime());
             wizard.setNrRoundOvertime(wizard.getNrRoundOvertime() - 1);
+            wizard.life();
         }
 
         //aplic lui this/clasa overtimedamage
         if (this.getNrRoundOvertime() > 0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            this.life();
         }
         if (this.getDie() == 0 && wizard.getDie() == 0) {
             //clasa/this.rogue ataca wizard
@@ -410,13 +418,14 @@ public class Rogue extends Hero {
                 damageBackstab2 = damageBackstab2 * Constants.KR;
             }
             //hit
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS && this.getHit() % 3 == 1)/*??*/ {
                 damageBackstab2 = damageBackstab2 * Constants.ONEFIVE;
                 this.setHit(Constants.ZERO);
             }
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 0) {
+            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) != Constants.WOODS && this.getHit() % 3 == 1) {
                 this.setHit(Constants.ZERO);
             }
+            float prebackstab = Math.round(damageBackstab2/Constants.MODIFICATORV);
             damageBackstab2 = Math.round(damageBackstab2);
             //rogue-Paralysis
             float damageParalysis2 = Constants.ZERO;
@@ -424,6 +433,7 @@ public class Rogue extends Hero {
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.WOODS) {
                 damageParalysis2 = damageParalysis2 * Constants.KR;
             }
+            float preparalysis = Math.round(damageParalysis2/Constants.MODIFICATORV);
             damageParalysis2 = Math.round(damageParalysis2);
             float damage2;
             damage2 = damageBackstab2 + damageParalysis2;
@@ -438,6 +448,29 @@ public class Rogue extends Hero {
                 wizard.setNrRoundOvertime(Constants.THREE);
                 wizard.setStay(Constants.THREE);
             }
+            //wizard ataca clasa rogue
+            //drain
+            float procent1;
+            procent1 = Constants.ZEROTWO + Constants.ZZFIVE * wizard.getLevel();
+            float damagedrain1 = Constants.ZERO;
+            damagedrain1 = (Constants.MODIFICATORR * procent1) * Math.min(Constants.ZEROTHREE * (Constants.ROGUE + this.getLevel() * Constants.FORTY), this.gethp());
+            if (instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT) {
+                damagedrain1 *= Constants.KP;
+            }
+            damagedrain1 = Math.round(damagedrain1);
+            //Deflect
+            float procent2;
+            procent2 = Constants.ZTHREEFIVE + Constants.ZZTWO * wizard.getLevel();
+            if (procent2 > Constants.MAXPRO) {
+                procent2 = Constants.MAXPRO;
+            }
+
+            float damagedeflect;
+            damagedeflect = (procent2 * Constants.MODIFICATORK) * (prebackstab + preparalysis);
+            damagedeflect = Math.round(damagedeflect);
+            float damage = damagedrain1 + damagedeflect;
+            this.sethp((int) (this.gethp() - damage));
+
             //verific daca mai traiesc
             this.life();
             wizard.life();

@@ -265,12 +265,14 @@ public class Knight extends Hero{
         if (rogue.getNrRoundOvertime() > 0) {
             rogue.sethp(rogue.gethp() - rogue.getDemageOvertime());
             rogue.setNrRoundOvertime(rogue.getNrRoundOvertime() - 1);
+            rogue.life();
         }
 
         //aplic lui this/clasa overtimedamage
         if (this.getNrRoundOvertime() > 0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
             this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
+            this.life();
         }
         if (this.getDie() == 0 && rogue.getDie() == 0) {
 
@@ -283,11 +285,11 @@ public class Knight extends Hero{
                 damageBackstab1 = damageBackstab1 * Constants.KR;
             }
             //hit
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 0)/*??*/ {
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 1)/*??*/ {
                 damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
                 rogue.setHit(Constants.ZERO);
             }
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 0) {
+            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 1) {
                 rogue.setHit(Constants.ZERO);
             }
             damageBackstab1 = Math.round(damageBackstab1);
@@ -384,47 +386,109 @@ public class Knight extends Hero{
         System.out.println("4");
         /*W.K*/
         map instance = map.getInstance();
-
-
-
-        //clasa this knight ataca wizard
-        float HPLIMIT2;
-        float damageExecuteBase2;
-        // verific daca pyromancer moare din prima
-        if (Constants.ZEROZEROONE * this.getLevel() < Constants.ZEROTWO) {
-            HPLIMIT2 = (float) ((Constants.ZEROTWO +
-                    Constants.ZEROZEROONE * this.getLevel()) * (Constants.WIZARD + wizard.getLevel() * Constants.THIRTIETH));
-        } else {
-            HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.WIZARD + wizard.getLevel() * Constants.THIRTIETH));
+        //aplic lui knight overtimedamage daca are
+        if (wizard.getNrRoundOvertime() > 0) {
+            wizard.sethp(wizard.gethp() - wizard.getDemageOvertime());
+            wizard.setNrRoundOvertime(wizard.getNrRoundOvertime() - 1);
+            wizard.life();
         }
-        if (HPLIMIT2 >= wizard.gethp()) {
-            wizard.setDie(Constants.ONE);
-            wizard.sethp(Constants.ZERO);
-            /*
+        if (this.getNrRoundOvertime() > 0) {
+            this.sethp(this.gethp() - this.getDemageOvertime());
+            this.setNrRoundOvertime(this.getNrRoundOvertime() - 1);
             this.life();
-            */
-        } else {
-            //daca nu moare din prima fac abilitatile
-            //knight-execute
-            damageExecuteBase2 = (Constants.TWOH + Constants.THIRTIETH * this.getLevel()) * Constants.KW;
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
-                damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
-            }
-            damageExecuteBase2 = Math.round(damageExecuteBase2);
+        }
+        if (this.getDie() == 0 && wizard.getDie() == 0) {
 
-            //knight-slam
-            float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORW;
-            if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
-                damageSlamBase2 = Constants.MODIFICATORL * damageSlamBase2;
+
+            //clasa this knight ataca wizard
+            float HPLIMIT2;
+            float damageExecuteBase2;
+            // verific daca pyromancer moare din prima
+            if (Constants.ZEROZEROONE * this.getLevel() < Constants.ZEROTWO) {
+                HPLIMIT2 = (float) ((Constants.ZEROTWO +
+                        Constants.ZEROZEROONE * this.getLevel()) * (Constants.WIZARD + wizard.getLevel() * Constants.THIRTIETH));
+            } else {
+                HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.WIZARD + wizard.getLevel() * Constants.THIRTIETH));
             }
+            float preexecute;
+            if (HPLIMIT2 >= wizard.gethp()) {
+               damageExecuteBase2 = wizard.gethp();
+               preexecute=damageExecuteBase2;
+
+            } else {
+                //daca nu moare din prima fac abilitatile
+                //knight-execute
+                damageExecuteBase2 = (Constants.TWOH + Constants.THIRTIETH * this.getLevel()) * Constants.KW;
+                if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
+                    damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
+                }
+                preexecute=Math.round(damageExecuteBase2/Constants.KW);
+                damageExecuteBase2 = Math.round(damageExecuteBase2);
+            }
+                //knight-slam
+            float preslam;
+            float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORW;
+                if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
+                    damageSlamBase2 = Constants.MODIFICATORL * damageSlamBase2;
+                }
+            preslam = Math.round(damageSlamBase2/Constants.MODIFICATORW);
             damageSlamBase2 = Math.round(damageSlamBase2);
-            float damage2 = damageSlamBase2 + damageExecuteBase2;
-            wizard.sethp(wizard.gethp() - (int) damage2);
-            //incapacitatea de miscare-> sterg celelate overtime
-            wizard.setStay(Constants.ONE);
-            wizard.setNrRoundOvertime(Constants.ZERO);
-            wizard.setDemageOvertime(Constants.ZERO);
+                float damage2 = damageSlamBase2 + damageExecuteBase2;
+                wizard.sethp(wizard.gethp() - (int) damage2);
+                //incapacitatea de miscare-> sterg celelate overtime
+                wizard.setStay(Constants.ONE);
+                wizard.setNrRoundOvertime(Constants.ZERO);
+                wizard.setDemageOvertime(Constants.ZERO);
+
+                //wizard ataca clasa knight
+            //drain
+            float procent1;
+            procent1 = Constants.ZEROTWO + Constants.ZZFIVE * wizard.getLevel();
+            float damagedrain1 = Constants.ZERO;
+            damagedrain1 = (Constants.MODIFICATORV * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + this.getLevel() * Constants.EIGHTY), this.gethp());
+            if (instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT) {
+                damagedrain1 *= Constants.KP;
+            }
+            damagedrain1 = Math.round(damagedrain1);
+            //Deflect
+            float procent2;
+            procent2 = Constants.ZTHREEFIVE + Constants.ZZTWO * wizard.getLevel();
+            if (procent2 > Constants.MAXPRO) {
+                procent2 = Constants.MAXPRO;
+            }
+
+            float damagedeflect;
+            damagedeflect = (procent2 * Constants.ONEFOUR) * (preexecute + preslam);
+            damagedeflect = Math.round(damagedeflect);
+            float damage = damagedrain1 + damagedeflect;
+            this.sethp((int) (this.gethp() - damage));
+            //verific daca mai traiesc
+            this.life();
+            wizard.life();
+
+            if (wizard.getDie() == 1) {
+                //insemna ca la omorat clasa/this
+                this.setxp(this.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (this.getLevel() - wizard.getLevel()) * Constants.FORTY));
+                int old_level = this.getLevel();
+                int new_level = (int) (this.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    this.setLevel(new_level);
+                    this.sethp(Constants.KNIGHT + new_level * Constants.EIGHTY);
+                }
+            }
+            if (this.getDie() == 1) {
+                //insemna ca la omorat wizard
+                wizard.setxp(wizard.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
+                        (wizard.getLevel() - this.getLevel()) * Constants.FORTY));
+                int old_level = wizard.getLevel();
+                int new_level = (int) (wizard.getxp() / 50) - 4;
+                if (new_level > old_level) {
+                    wizard.setLevel(new_level);
+                    wizard.sethp(Constants.WIZARD + new_level * Constants.THIRTIETH);
+                }
+            }
+
         }
     }
-    
 }

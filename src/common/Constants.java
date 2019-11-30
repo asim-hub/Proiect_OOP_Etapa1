@@ -43,6 +43,13 @@ public final class Constants {
 	public static final int TEN = 10;
 	public static final int THREE = 3;
 	public static final int SIX = 6;
+    public static final float ZZFIVE = 0.05f;
+    public static final float ZEROTHREE = 0.3f;
+    public static final float ZTHREEFIVE = 0.35f;
+    public static final float ZZTWO = 0.02f;
+    public static final float MAXPRO = 0.7f;
+    public static final float ONETHREE = 1.3f;
+    public static final float ONEFOUR = 1.4f;
 
 
 }
