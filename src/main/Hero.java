@@ -1,105 +1,115 @@
 package main;
 
 public abstract class Hero {
-	private Integer hp;
-	private Integer xp;
-	private Integer coord_x;
-	private Integer coord_y;
-	private Integer level;
-	private Integer nrRoundOvertime;
-	private Integer demageOvertime;
+    private Integer hp;
+    private Integer xp;
+    private Integer coordX;
+    private Integer coordY;
+    private Integer level;
+    private Integer nrRoundOvertime;
+    private Integer demageOvertime;
     private Integer die;
     private Integer stay;
     private String type;
 
-    public void setType(String type) {
-        this.type = type;
+    public Hero() {
     }
 
-    public String getType() {
+    public final String getType() {
         return type;
     }
 
-    public Integer getStay() {
+    public final void setType(final String type) {
+        this.type = type;
+    }
+
+    public final Integer getStay() {
         return stay;
     }
 
-    public void setStay(Integer stay) {
+    public final void setStay(final Integer stay) {
         this.stay = stay;
     }
 
-    public Integer getDie() {
+    public final Integer getDie() {
         return die;
     }
 
-    public void setDie(Integer die) {
+    public final void setDie(final Integer die) {
         this.die = die;
     }
 
-    public void setDemageOvertime(Integer demageOvertime) {
-        this.demageOvertime = demageOvertime;
-    }
-
-    public void setNrRoundOvertime(Integer nrRoundOvertime) {
-        this.nrRoundOvertime = nrRoundOvertime;
-    }
-
-    public Integer getNrRoundOvertime() {
+    public final Integer getNrRoundOvertime() {
         return nrRoundOvertime;
     }
 
-    public Integer getDemageOvertime() {
+    public final void setNrRoundOvertime(final Integer nrRoundOvertime) {
+        this.nrRoundOvertime = nrRoundOvertime;
+    }
+
+    public final Integer getDemageOvertime() {
         return demageOvertime;
     }
 
-    public Integer getLevel() {
+    public final void setDemageOvertime(final Integer demageOvertime) {
+        this.demageOvertime = demageOvertime;
+    }
+
+    public final Integer getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public final void setLevel(final Integer level) {
         this.level = level;
     }
 
-    public Hero(){}
+    public final Integer getCoordX() {
+        return coordX;
+    }
 
-	public void setCoord_y(Integer coord_y) {
-		this.coord_y = coord_y;
-	}
+    public final void setCoordX(final Integer coordX) {
+        this.coordX = coordX;
+    }
 
-	public void setCoord_x(Integer coord_x) {
-		this.coord_x = coord_x;
-	}
+    public final Integer getCoordY() {
+        return coordY;
+    }
 
-	public Integer getCoord_x() {
-		return coord_x;
-	}
+    public final void setCoordY(final Integer coordY) {
+        this.coordY = coordY;
+    }
 
-	public Integer getCoord_y() {
-		return coord_y;
-	}
+    public final Integer gethp() {
+        return hp;
+    }
 
-	public Integer gethp() {
-		return hp;
-	}
-	public void sethp(Integer hP) {
-		hp = hP;
-	}
-	public Integer getxp() {
-		return xp;
-	}
-	public void setxp(Integer xP) {
-		xp = xP;
-	}
-	public void life(){
-        if(this.gethp()<=0){
+    public final void sethp(final Integer hP) {
+        hp = hP;
+    }
+
+    public final Integer getxp() {
+        return xp;
+    }
+
+    public final void setxp(final Integer xP) {
+        xp = xP;
+    }
+
+    public final void life() {
+        if (this.gethp() <= 0) {
             this.setDie(1);
         }
     }
+
     public abstract void fightwith(Hero hero);
+
     public abstract void salute(Knight knight);
+
     public abstract void salute(Pyromancer pyromancer);
+
     public abstract void salute(Rogue rogue);
+
     public abstract void salute(Wizard wizard);
 
-	
+
 }

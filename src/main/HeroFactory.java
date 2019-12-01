@@ -23,6 +23,4 @@ final class HeroFactory {
 	            default : return null;
 	        }
 	    }
-	
-
 }

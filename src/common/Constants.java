@@ -1,7 +1,8 @@
 package common;
 
 public final class Constants {
-
+	private Constants() {
+	}
 	public static final int ZERO = 0;
 	public static final char RIGHT = 'R';
 	public static final char LEFT = 'L';
@@ -10,7 +11,7 @@ public final class Constants {
 	public static final int ONE = 1;
 	public static final int ROGUE = 600;
 	public static final int KNIGHT = 900;
-	public static final int PYROMANCER= 500;
+	public static final int PYROMANCER = 500;
 	public static final int WIZARD = 400;
 	public static final int DAMAGEFB = 350;
 	public static final int DAMAGEI = 150;
@@ -50,6 +51,9 @@ public final class Constants {
     public static final float MAXPRO = 0.7f;
     public static final float ONETHREE = 1.3f;
     public static final float ONEFOUR = 1.4f;
+	public static final int SPACE = 32;
+	public static final int FOUR = 4;
+
 
 
 }

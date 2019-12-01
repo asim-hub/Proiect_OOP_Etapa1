@@ -1,31 +1,34 @@
 package matrix;
 
-public final class map {
+public final class Map {
     private char[][] array;
 
-    public map(final int n,final int m){
+    public Map(final int n, final int m) {
         array = new char[n][m];
     }
+
     public char[][] getArray() {
         return array;
     }
-    public char getArray(int x, int y) {
+
+    public char getArray(final int x, final int y) {
         return array[x][y];
     }
 
-    public void setArray(char t, int i, int j) {
+    public void setArray(final char t, final int i, final int j) {
         array[i][j] = t;
     }
 
-    private static map instance = null;
+    private static Map instance = null;
 
-    public static map getInstance(int n, int m) {
+    public static Map getInstance(final int n, final int m) {
         if (instance == null) {
-            instance = new map(n,m);
+            instance = new Map(n, m);
         }
         return instance;
     }
-    public static map getInstance() {
+
+    public static Map getInstance() {
         return instance;
     }
 
