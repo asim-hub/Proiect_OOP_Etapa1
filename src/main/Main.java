@@ -72,7 +72,7 @@ public class Main {
 				        //hero.get(j).life();
 				        if(hero.get(i).getCoord_x() == hero.get(j).getCoord_x() &&
                                 hero.get(i).getCoord_y() == hero.get(j).getCoord_y() &&
-                                hero.get(i).getDie() == 0 && hero.get(j).getDie() == 0) {
+								(hero.get(i).getDie() == 0 && hero.get(j).getDie() == 0)) {
                             hero.get(i).fightwith(hero.get(j));
                             System.out.println(hero.get(i).gethp());
                             System.out.println(hero.get(j).gethp());

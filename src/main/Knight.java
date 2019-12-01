@@ -47,11 +47,8 @@ public class Knight extends Hero{
                 HPLIMIT1 = (float) ((2 * Constants.ZEROTWO) * (Constants.KNIGHT + this.getLevel() * Constants.EIGHTY));
             }
             if (HPLIMIT1 >= this.gethp()) {
-                this.setDie(Constants.ONE);
-                this.sethp(Constants.ZERO);
-            /*
-            this.life();
-            */
+                damageExecuteBase1=this.gethp();
+
             } else {
                 //daca nu moare din prima fac abilitatile
                 //knight-execute
@@ -60,7 +57,7 @@ public class Knight extends Hero{
                     damageExecuteBase1 = Constants.MODIFICATORL * damageExecuteBase1;
                 }
                 damageExecuteBase1 = Math.round(damageExecuteBase1);
-
+            }
                 //knight-slam
                 float damageSlamBase1 = (Constants.ONEH + Constants.FORTY * knight.getLevel()) * Constants.MODIFICATORK;
                 if (instance.getArray(knight.getCoord_x(), knight.getCoord_y()) == Constants.LAND) {
@@ -74,7 +71,6 @@ public class Knight extends Hero{
                 this.setStay(Constants.ONE);
                 this.setNrRoundOvertime(Constants.ZERO);
                 this.setDemageOvertime(Constants.ZERO);
-            }
 
             //this , clasa ataca
             float HPLIMIT2;
@@ -87,11 +83,7 @@ public class Knight extends Hero{
                 HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.KNIGHT + knight.getLevel() * Constants.EIGHTY));
             }
             if (HPLIMIT2 >= knight.gethp()) {
-                knight.setDie(Constants.ONE);
-                knight.sethp(Constants.ZERO);
-            /*
-            this.life();
-            */
+                damageExecuteBase2=knight.gethp();
             } else {
                 //daca nu moare din prima fac abilitatile
                 //knight-execute
@@ -100,7 +92,7 @@ public class Knight extends Hero{
                     damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
                 }
                 damageExecuteBase2 = Math.round(damageExecuteBase2);
-
+            }
                 //knight-slam
                 float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORK;
                 if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
@@ -113,7 +105,7 @@ public class Knight extends Hero{
                 knight.setStay(Constants.ONE);
                 knight.setNrRoundOvertime(Constants.ZERO);
                 knight.setDemageOvertime(Constants.ZERO);
-            }
+
             //verific daca dupa lupta mai traiesc
             knight.life();
             this.life();
@@ -147,6 +139,7 @@ public class Knight extends Hero{
     @Override
     public void salute(Pyromancer pyromancer) {
         System.out.println("2");
+        map instance = map.getInstance();
         /*P.K*/
         //aplic lui pyromancer overtimedamage
         if(pyromancer.getNrRoundOvertime()>0) {
@@ -162,7 +155,6 @@ public class Knight extends Hero{
         }
         if(this.getDie() == 0 && pyromancer.getDie() ==0) {
             //Pyromancer-Fireblast
-            map instance = map.getInstance();
             float damageFireblastBase = Constants.MODIFICATORK * (Constants.DAMAGEFB + pyromancer.getLevel() * Constants.LEVELFB);
             if (instance.getArray(pyromancer.getCoord_x(), pyromancer.getCoord_y()) == Constants.VOLCANIC) {
                 damageFireblastBase = Constants.MODIFICATORV * damageFireblastBase;
@@ -199,11 +191,7 @@ public class Knight extends Hero{
                 HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.PYROMANCER + pyromancer.getLevel() * Constants.FIFTY));
             }
             if (HPLIMIT2 >= pyromancer.gethp()) {
-                pyromancer.setDie(Constants.ONE);
-                pyromancer.sethp(Constants.ZERO);
-            /*
-            this.life();
-            */
+               damageExecuteBase2=pyromancer.gethp();
             } else {
                 //daca nu moare din prima fac abilitatile
                 //knight-execute
@@ -212,9 +200,9 @@ public class Knight extends Hero{
                     damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
                 }
                 damageExecuteBase2 = Math.round(damageExecuteBase2);
-
+            }
                 //knight-slam
-                float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORK;
+                float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORP;
                 if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
                     damageSlamBase2 = Constants.MODIFICATORL * damageSlamBase2;
                 }
@@ -225,7 +213,7 @@ public class Knight extends Hero{
                 pyromancer.setStay(Constants.ONE);
                 pyromancer.setNrRoundOvertime(Constants.ZERO);
                 pyromancer.setDemageOvertime(Constants.ZERO);
-            }
+
             //verific daca mai au viata
             this.life();
             pyromancer.life();
@@ -240,7 +228,6 @@ public class Knight extends Hero{
                     pyromancer.setLevel(new_level);
                     pyromancer.sethp(Constants.PYROMANCER + new_level*Constants.FIFTY);
                 }
-
             }
             if(pyromancer.getDie() == 1){
                 //insemna ca la omorat clasa/knight
@@ -276,21 +263,16 @@ public class Knight extends Hero{
         }
         if (this.getDie() == 0 && rogue.getDie() == 0) {
 
-
             //roguie ataca clasa
             rogue.setHit(rogue.getHit() + 1);
             float damageBackstab1 = Constants.ZERO;
-            damageBackstab1 = (Constants.TWOH + rogue.getLevel() * Constants.LEVELI) * Constants.MODIFICATORV;
+            damageBackstab1 = (Constants.TWOH + rogue.getLevel() * Constants.LEVELI) * Constants.MODIFICATORP;
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
                 damageBackstab1 = damageBackstab1 * Constants.KR;
             }
             //hit
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 1)/*??*/ {
                 damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
-                rogue.setHit(Constants.ZERO);
-            }
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 1) {
-                rogue.setHit(Constants.ZERO);
             }
             damageBackstab1 = Math.round(damageBackstab1);
             //rogue-Paralysis
@@ -305,19 +287,18 @@ public class Knight extends Hero{
             this.sethp((int) (this.gethp() - damage1));
             //damage extins si paralizie 3/6
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
-                this.setDemageOvertime((int) damage1);
+                this.setDemageOvertime((int) damageParalysis1);
                 this.setNrRoundOvertime(Constants.SIX);
                 this.setStay(Constants.SIX);
             } else {
-                this.setDemageOvertime((int) damage1);
+                this.setDemageOvertime((int) damageParalysis1);
                 this.setNrRoundOvertime(Constants.THREE);
                 this.setStay(Constants.THREE);
             }
-
             //clasa this knight ataca rogue
             float HPLIMIT2;
             float damageExecuteBase2;
-            // verific daca pyromancer moare din prima
+            // verific daca rogur moare din prima
             if (Constants.ZEROZEROONE * this.getLevel() < Constants.ZEROTWO) {
                 HPLIMIT2 = (float) ((Constants.ZEROTWO +
                         Constants.ZEROZEROONE * this.getLevel()) * (Constants.ROGUE + rogue.getLevel() * Constants.FORTY));
@@ -325,11 +306,7 @@ public class Knight extends Hero{
                 HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.ROGUE + rogue.getLevel() * Constants.FORTY));
             }
             if (HPLIMIT2 >= rogue.gethp()) {
-                rogue.setDie(Constants.ONE);
-                rogue.sethp(Constants.ZERO);
-            /*
-            this.life();
-            */
+                damageExecuteBase2 = rogue.gethp();
             } else {
                 //daca nu moare din prima fac abilitatile
                 //knight-execute
@@ -338,7 +315,7 @@ public class Knight extends Hero{
                     damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
                 }
                 damageExecuteBase2 = Math.round(damageExecuteBase2);
-
+            }
                 //knight-slam
                 float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * this.getLevel()) * Constants.MODIFICATORR;
                 if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.LAND) {
@@ -351,8 +328,8 @@ public class Knight extends Hero{
                 rogue.setStay(Constants.ONE);
                 rogue.setNrRoundOvertime(Constants.ZERO);
                 rogue.setDemageOvertime(Constants.ZERO);
-            }
-            //verific daca mai sutnt in viata
+
+            //verific daca mai sunt in viata
             this.life();
             rogue.life();
             //verific daca se omoara si daca da adaug experienta//verific daca avanseaza in level si actualizez hp
@@ -398,12 +375,10 @@ public class Knight extends Hero{
             this.life();
         }
         if (this.getDie() == 0 && wizard.getDie() == 0) {
-
-
             //clasa this knight ataca wizard
             float HPLIMIT2;
             float damageExecuteBase2;
-            // verific daca pyromancer moare din prima
+            // verific daca wizard moare din prima
             if (Constants.ZEROZEROONE * this.getLevel() < Constants.ZEROTWO) {
                 HPLIMIT2 = (float) ((Constants.ZEROTWO +
                         Constants.ZEROZEROONE * this.getLevel()) * (Constants.WIZARD + wizard.getLevel() * Constants.THIRTIETH));
@@ -445,7 +420,7 @@ public class Knight extends Hero{
             float procent1;
             procent1 = Constants.ZEROTWO + Constants.ZZFIVE * wizard.getLevel();
             float damagedrain1 = Constants.ZERO;
-            damagedrain1 = (Constants.MODIFICATORV * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + this.getLevel() * Constants.EIGHTY), this.gethp());
+            damagedrain1 = (Constants.MODIFICATORK * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + this.getLevel() * Constants.EIGHTY), this.gethp());
             if (instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT) {
                 damagedrain1 *= Constants.KP;
             }
@@ -459,6 +434,9 @@ public class Knight extends Hero{
 
             float damagedeflect;
             damagedeflect = (procent2 * Constants.ONEFOUR) * (preexecute + preslam);
+            if(instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT){
+                damagedeflect*=Constants.KP;
+            }
             damagedeflect = Math.round(damagedeflect);
             float damage = damagedrain1 + damagedeflect;
             this.sethp((int) (this.gethp() - damage));

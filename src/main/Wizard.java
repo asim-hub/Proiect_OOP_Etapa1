@@ -1,6 +1,9 @@
 package main;
 import common.Constants;
 import matrix.map;
+
+import java.util.zip.CheckedOutputStream;
+
 public class Wizard extends Hero {
 
     public Wizard() {
@@ -36,7 +39,6 @@ public class Wizard extends Hero {
         }
         if (this.getDie() == 0 && knight.getDie() == 0) {
             //knight ataca pe wizard
-            //knight ataca
             float HPLIMIT1;
             float damageExecuteBase1;
             // verific daca clasa/wizard moare din prima
@@ -81,7 +83,7 @@ public class Wizard extends Hero {
             float procent1;
             procent1 = Constants.ZEROTWO + Constants.ZZFIVE * this.getLevel();
             float damagedrain1 = Constants.ZERO;
-            damagedrain1 = (Constants.MODIFICATORP * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + knight.getLevel() * Constants.EIGHTY), knight.gethp());
+            damagedrain1 = (Constants.MODIFICATORK * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + knight.getLevel() * Constants.EIGHTY), knight.gethp());
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.DESERT) {
                 damagedrain1 *= Constants.KP;
             }
@@ -94,7 +96,10 @@ public class Wizard extends Hero {
             }
 
             float damagedeflect;
-            damagedeflect = (procent2 * Constants.ONETHREE) * (preexecute + preslam);
+            damagedeflect = (procent2 * Constants.ONEFOUR) * (preexecute + preslam);
+            if(instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.DESERT){
+                damagedeflect*= Constants.KP;
+            }
             damagedeflect = Math.round(damagedeflect);
             float damage = damagedrain1 + damagedeflect;
             knight.sethp((int) (knight.gethp() - damage));
@@ -176,7 +181,7 @@ public class Wizard extends Hero {
             float procent1;
             procent1 = Constants.ZEROTWO + Constants.ZZFIVE * this.getLevel();
             float damagedrain1 = Constants.ZERO;
-            damagedrain1 = (Constants.MODIFICATORP * procent1) * Math.min(Constants.ZEROTHREE * (Constants.ROGUE + pyromancer.getLevel() * Constants.FORTY), pyromancer.gethp());
+            damagedrain1 = (Constants.MODIFICATORP * procent1) * Math.min(Constants.ZEROTHREE * (Constants.PYROMANCER + pyromancer.getLevel() * Constants.FIFTY), pyromancer.gethp());
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.DESERT) {
                 damagedrain1 *= Constants.KP;
             }
@@ -190,8 +195,12 @@ public class Wizard extends Hero {
 
             float damagedeflect;
             damagedeflect = (procent2 * Constants.ONETHREE) * (prefireblast+ preignite);
+            if(instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.DESERT){
+                damagedeflect*=Constants.KP;
+            }
             damagedeflect = Math.round(damagedeflect);
             float damage1 = damagedrain1 + damagedeflect;
+
             pyromancer.sethp((int) (pyromancer.gethp() - damage1));
             //verific daca mai sunt in viata
             this.life();
@@ -208,7 +217,7 @@ public class Wizard extends Hero {
                 }
             }
             if (this.getDie() == 1) {
-                //insemna ca la omorat wizard
+                //insemna ca la omorat pyromancer
                 pyromancer.setxp(pyromancer.getxp() + Math.max(Constants.ZERO, Constants.TWOH -
                         (pyromancer.getLevel() - this.getLevel()) * Constants.FORTY));
                 int old_level = pyromancer.getLevel();
@@ -252,10 +261,6 @@ public class Wizard extends Hero {
             //hit
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 1)/*??*/ {
                 damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
-                rogue.setHit(Constants.ZERO);
-            }
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 1) {
-                rogue.setHit(Constants.ZERO);
             }
             float predamageBack = Math.round(damageBackstab1/ Constants.MODIFICATORV);
             damageBackstab1 = Math.round(damageBackstab1);
@@ -273,11 +278,11 @@ public class Wizard extends Hero {
             this.sethp((int) (this.gethp() - damage1));
             //damage extins si paralizie 3/6
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
-                this.setDemageOvertime((int) damage1);
+                this.setDemageOvertime((int) damageParalysis1);
                 this.setNrRoundOvertime(Constants.SIX);
                 this.setStay(Constants.SIX);
             } else {
-                this.setDemageOvertime((int) damage1);
+                this.setDemageOvertime((int) damageParalysis1);
                 this.setNrRoundOvertime(Constants.THREE);
                 this.setStay(Constants.THREE);
             }
@@ -300,6 +305,9 @@ public class Wizard extends Hero {
 
             float damagedeflect;
             damagedeflect=(procent2*Constants.MODIFICATORK)*(predamageBack+predamageParalysis);
+            if(instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.DESERT){
+                damagedeflect*=Constants.KP;
+            }//
             damagedeflect = Math.round(damagedeflect);
             float damage=damagedrain1 + damagedeflect;
             rogue.sethp((int) (rogue.gethp()-damage));
@@ -368,7 +376,7 @@ public class Wizard extends Hero {
             float procent2;
             procent2=Constants.ZEROTWO + Constants.ZZFIVE*this.getLevel();
             float damagedrain2 = Constants.ZERO;
-            damagedrain2 = (Constants.MODIFICATORW*procent1)*Math.min(Constants.ZEROTHREE*(Constants.WIZARD + wizard.getLevel()*Constants.THIRTIETH), wizard.gethp());
+            damagedrain2 = (Constants.MODIFICATORW*procent2)*Math.min(Constants.ZEROTHREE*(Constants.WIZARD + wizard.getLevel()*Constants.THIRTIETH), wizard.gethp());
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.DESERT){
                 damagedrain2*=Constants.KP;
             }

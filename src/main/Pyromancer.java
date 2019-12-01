@@ -20,6 +20,7 @@ public class Pyromancer extends Hero{
 
     @Override
     public void salute(Knight knight) {
+
         System.out.println("5");
         map instance = map.getInstance();
         /*K.P*/
@@ -48,11 +49,7 @@ public class Pyromancer extends Hero{
                 HPLIMIT2 = (float) ((2 * Constants.ZEROTWO) * (Constants.PYROMANCER + this.getLevel() * Constants.FIFTY));
             }
             if (HPLIMIT2 >= this.gethp()) {
-                this.setDie(Constants.ONE);
-                this.sethp(Constants.ZERO);
-            /*
-            this.life();
-            */
+                damageExecuteBase2=this.gethp();
             } else {
                 //daca nu moare din prima fac abilitatile
                 //knight-execute
@@ -61,7 +58,7 @@ public class Pyromancer extends Hero{
                     damageExecuteBase2 = Constants.MODIFICATORL * damageExecuteBase2;
                 }
                 damageExecuteBase2 = Math.round(damageExecuteBase2);
-
+            }
                 //knight-slam
                 float damageSlamBase2 = (Constants.ONEH + Constants.FORTY * knight.getLevel()) * Constants.MODIFICATORP;
                 if (instance.getArray(knight.getCoord_x(), knight.getCoord_y()) == Constants.LAND) {
@@ -74,8 +71,7 @@ public class Pyromancer extends Hero{
                 this.setStay(Constants.ONE);
                 this.setNrRoundOvertime(Constants.ZERO);
                 this.setDemageOvertime(Constants.ZERO);
-            }
-
+                //pyromancerclasa ataca pe knight
             //Pyromancer-Fireblast
             float damageFireblastBase = Constants.MODIFICATORK * (Constants.DAMAGEFB + this.getLevel() * Constants.LEVELFB);
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
@@ -133,8 +129,8 @@ public class Pyromancer extends Hero{
     @Override
     public void salute(Pyromancer pyromancer) {
         System.out.println("6");
+        map instance = map.getInstance();
         /*P.P*/
-
         //aplic lui pyromancer overtimedamage
         if (pyromancer.getNrRoundOvertime() > 0 && pyromancer.getDie() == 0) {
             pyromancer.sethp(pyromancer.gethp() - pyromancer.getDemageOvertime());
@@ -150,7 +146,7 @@ public class Pyromancer extends Hero{
         }
 
         if(this.getDie() == 0 && pyromancer.getDie() ==0) {
-            map instance = map.getInstance();
+
             //Pyromancer-Fireblast
             float damageFireblastBase1 = Constants.MODIFICATORP * (Constants.DAMAGEFB + pyromancer.getLevel() * Constants.LEVELFB);
             if (instance.getArray(pyromancer.getCoord_x(), pyromancer.getCoord_y()) == Constants.VOLCANIC) {
@@ -175,9 +171,8 @@ public class Pyromancer extends Hero{
             //schimb damage obertime si anulez paralizie
             this.setDemageOvertime((int) damageOvertime1);
             this.setNrRoundOvertime(Constants.TWO);
-            this.setStay(0);
-
-
+            this.setStay(Constants.ZERO);
+            //clasa pyromancer ataca pyromancer
             //Pyromancer-Fireblast
             float damageFireblastBase2 = Constants.MODIFICATORP * (Constants.DAMAGEFB + this.getLevel() * Constants.LEVELFB);
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
@@ -262,10 +257,6 @@ public class Pyromancer extends Hero{
             //hit
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS && rogue.getHit() % 3 == 1)/*??*/ {
                 damageBackstab1 = damageBackstab1 * Constants.ONEFIVE;
-                rogue.setHit(Constants.ZERO);
-            }
-            if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) != Constants.WOODS && rogue.getHit() % 3 == 1) {
-                rogue.setHit(Constants.ZERO);
             }
             damageBackstab1 = Math.round(damageBackstab1);
             //rogue-Paralysis
@@ -280,11 +271,11 @@ public class Pyromancer extends Hero{
             this.sethp((int) (this.gethp() - damage1));
             //damage extins si paralizie 3/6
             if (instance.getArray(rogue.getCoord_x(), rogue.getCoord_y()) == Constants.WOODS) {
-                this.setDemageOvertime((int) damage1);
+                this.setDemageOvertime((int) damageParalysis1);
                 this.setNrRoundOvertime(Constants.SIX);
                 this.setStay(Constants.SIX);
             } else {
-                this.setDemageOvertime((int) damage1);
+                this.setDemageOvertime((int) damageParalysis1);
                 this.setNrRoundOvertime(Constants.THREE);
                 this.setStay(Constants.THREE);
             }
@@ -347,7 +338,7 @@ public class Pyromancer extends Hero{
     public void salute(Wizard wizard) {
         System.out.println("8");
         /*W.P*/
-
+        map instance = map.getInstance();
         //aplic lui pyromancer overtimedamage
         if(this.getNrRoundOvertime()>0) {
             this.sethp(this.gethp() - this.getDemageOvertime());
@@ -361,9 +352,7 @@ public class Pyromancer extends Hero{
             wizard.life();
         }
         if (this.getDie() == 0 && wizard.getDie() == 0) {
-
             //Pyromancer-Fireblast
-            map instance = map.getInstance();
             float prefireblast;
             float damageFireblastBase = Constants.MODIFICATORW * (Constants.DAMAGEFB + this.getLevel() * Constants.LEVELFB);
             if (instance.getArray(this.getCoord_x(), this.getCoord_y()) == Constants.VOLCANIC) {
@@ -398,7 +387,7 @@ public class Pyromancer extends Hero{
             float procent1;
             procent1 = Constants.ZEROTWO + Constants.ZZFIVE * wizard.getLevel();
             float damagedrain1 = Constants.ZERO;
-            damagedrain1 = (Constants.MODIFICATORP * procent1) * Math.min(Constants.ZEROTHREE * (Constants.KNIGHT + this.getLevel() * Constants.EIGHTY), this.gethp());
+            damagedrain1 = (Constants.MODIFICATORP * procent1) * Math.min(Constants.ZEROTHREE * (Constants.PYROMANCER + this.getLevel() * Constants.FIFTY), this.gethp());
             if (instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT) {
                 damagedrain1 *= Constants.KP;
             }
@@ -412,6 +401,9 @@ public class Pyromancer extends Hero{
 
             float damagedeflect;
             damagedeflect = (procent2 * Constants.ONETHREE) * (prefireblast + preignite);
+            if(instance.getArray(wizard.getCoord_x(), wizard.getCoord_y()) == Constants.DESERT){
+                damagedeflect*=Constants.KP;
+            }
             damagedeflect = Math.round(damagedeflect);
             float damage1 = damagedrain1 + damagedeflect;
             this.sethp((int) (this.gethp() - damage1));
